@@ -37,10 +37,7 @@ public class Customer {
 		while (rentalElements.hasNext()) {
 			Rental each = rentalElements.next();
 
-			// 마일리지 추가
-			frequentRenterPoints++;
-			if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDayrented() > 1)
-				frequentRenterPoints++;
+			frequentRenterPoints += each.getFrequentRenterPoints();
 
 			// 요금 계산 결과
 			result += "\t" + each.getMovie().geTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
@@ -54,4 +51,6 @@ public class Customer {
 		return result;
 
 	}
+
+
 }

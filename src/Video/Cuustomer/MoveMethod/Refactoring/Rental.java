@@ -38,6 +38,13 @@ public class Rental {
 		}
 		return result;
 	}
-	
+	public int getFrequentRenterPoints() {
+		// 마일리지 추가
+		if ((getMovie().getPriceCode() == Movie.NEW_RELEASE) && getDayrented() > 1)
+			return 2;
+		else {
+			return 1;
+		}
+	}
 	
 }
