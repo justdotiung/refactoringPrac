@@ -1,50 +1,39 @@
 package Video.Cuustomer.MoveMethod.Refactoring;
 
+/*
+ *  다형성 을 통한 리팩토링  
+ *  1.새로운 분류 방법
+ *  2.요금과 포인트 변경
+ *  방안
+ *  1. switch문 , 마일리지 Movie class로 이동.
+ * */
 // 영화를 대여  클래스
 public class Rental {
 	//영화
 	private Movie movie;
 	//대여기간
-	private int dayrented;
+	private int daysRented;
 
 	public Rental(Movie movie, int dayrented) {
 		//요금, 비디오제목
 		this.movie = movie;
-		this.dayrented = dayrented;
+		this.daysRented = dayrented;
 	}
 	public Movie getMovie() {
 		return movie;
 	}
 	public int getDayrented() {
-		return dayrented;
+		return daysRented;
 	}
-	//3. 을 이용 이동된 메서드 (메서드 명 적절히 변경)
-	double getCharge() {
-		double result = 0;
-		switch (getMovie().getPriceCode()) {
-		case Movie.REGULAR:
-			result += 2;
-			if (getDayrented() > 2)
-				result += (getDayrented() - 2) * 1.5;
-			break;
-		case Movie.NEW_RELEASE:
-			result += getDayrented() * 3;
-			break;
-		case Movie.CHILDREN:
-			result += 1.5;
-			if (getDayrented() > 3)
-				result += (getDayrented() - 3) * 1.5;
-			break;
-		}
-		return result;
+	
+	public double getCharge() {
+		return movie.getCharge(daysRented);
+		
 	}
+	
+	//마일리지 
 	public int getFrequentRenterPoints() {
-		// 마일리지 추가
-		if ((getMovie().getPriceCode() == Movie.NEW_RELEASE) && getDayrented() > 1)
-			return 2;
-		else {
-			return 1;
-		}
+		return movie.getFrequentRenterPoints(daysRented);
 	}
 	
 }
