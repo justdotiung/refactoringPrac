@@ -35,10 +35,7 @@ public class Customer {
 
 		//각 영화에 대한 요금 결정
 		while (rentalElements.hasNext()) {
-			double thisAmount = 0;
 			Rental each = rentalElements.next();
-			//3. 이용
-			thisAmount = each.getCharge();
 
 			// 마일리지 추가
 			frequentRenterPoints++;
@@ -46,12 +43,13 @@ public class Customer {
 				frequentRenterPoints++;
 
 			// 요금 계산 결과
-			result += "\t" + each.getMovie().geTitle() + "\t" + String.valueOf(thisAmount) + "\n";
-			totalAmout += thisAmount;
+			result += "\t" + each.getMovie().geTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
+			totalAmout += each.getCharge();
 		}
 		// 푸터 추가
 		result += "Amount owed is" + String.valueOf(totalAmout) + "\n"; // 총가격
-		result += "You earned" + String.valueOf(frequentRenterPoints) + "frequentRenterPoints";// 마일리지
+		result += "You earned" + String.valueOf(frequentRenterPoints) + 
+				  "frequentRenterPoints";// 마일리지
 
 		return result;
 
