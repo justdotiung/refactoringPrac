@@ -1,4 +1,10 @@
 package Video.Cuustomer.MoveMethod.Refactoring;
+
+import Video.Cuustomer.polymorphism.Refactoring.ChildrenPrice;
+import Video.Cuustomer.polymorphism.Refactoring.NewReleasePrice;
+import Video.Cuustomer.polymorphism.Refactoring.Price;
+import Video.Cuustomer.polymorphism.Refactoring.RegularPrice;
+
 /*
  *  다형성 을 통한 리팩토링  
  *  1.새로운 분류 방법
@@ -6,7 +12,9 @@ package Video.Cuustomer.MoveMethod.Refactoring;
  *  방안
  *  1. switch문 , 마일리지 Movie class로 이동.
  *  2. Movie를 상속받는 3개의 class를 만든다
- *  3. 
+ *  3. 디자인패턴을 이용한 리팩토링 (스테이트 패턴 이용)
+ *  4. getCharge() switch 문을 없앤다.
+ *  5. 각각의 요금 클래스에 코드와 요금 또한 마일리지가 필요한부분에 사용한다.
  * */
 //비디오 이름 과 요금 클래스
 public class Movie {
@@ -16,11 +24,11 @@ public class Movie {
 	public static final int NEW_RELEASE = 1; //최신	
 	
 	private String _title;
-	private int _priceCode;
+	private Price price;
 	
 	public Movie(String title, int priceCode) {
 		this._title = title;
-		this._priceCode = priceCode;
+		setPriceCode(priceCode);
 	}
 
 	public String geTitle() {
@@ -28,41 +36,31 @@ public class Movie {
 	}
 
 	public int getPriceCode() {
-		return _priceCode;
+		return price.getPriceCode();
 	}
 
 	public void setPriceCode(int arg) {
-		this._priceCode = arg;
+		switch (arg) {
+		case REGULAR:
+			price = new RegularPrice();
+			break;
+		case CHILDREN:
+			price = new ChildrenPrice();
+			break;
+		case NEW_RELEASE:
+			price = new NewReleasePrice();
+			break;
+		default:
+			throw new IllegalArgumentException("Incorrenct Price Code");
+		}
 	}
 	
-	//switch 문은 자신의 데이터를 사용하는것이 바람직하다. 
-		double getCharge(int daysRented) {
-			double result = 0;
-			switch (getPriceCode()) {
-			case Movie.REGULAR:
-				result += 2;
-				if (daysRented > 2)
-					result += (daysRented - 2) * 1.5;
-				break;
-			case Movie.NEW_RELEASE:
-				result += daysRented * 3;
-				break;
-			case Movie.CHILDREN:
-				result += 1.5;
-				if (daysRented > 3)
-					result += (daysRented - 3) * 1.5;
-				break;
-			}
-			return result;
-		}
-		
-		public int getFrequentRenterPoints(int daysRented) {
-			// 마일리지 추가
-			if ((getPriceCode() == Movie.NEW_RELEASE) && daysRented > 1)
-				return 2;
-			else {
-				return 1;
-			}
-		}
+	double getCharge(int daysRented) {
+		return price.getCharge(daysRented);
+	}
+
+	public int getFrequentRenterPoints(int daysRented) {
+		return price.getFrequentRenterPoints(daysRented);
+	}
 		
 }
