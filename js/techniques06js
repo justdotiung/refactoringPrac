@@ -1,0 +1,58 @@
+// 변수 캡술화 하기
+let defaultOwner = { firstName: "Martin", lastName: "pauler" };
+// 참조 코드
+spaceship.owner = defaultOwner;
+// 갱신코드
+defaultOwner = { firstName: "Martin", lastName: "paseans" };
+// 캡슐화를 위한 데이더 읽기/쓰기
+function getDefaultOwner() {
+  return defaultOwner;
+}
+function setDefaultOwner(arg) {
+  defaultOwner = arg;
+}
+// 참조코드 변경
+spaceship.owner = getDefaultOwner();
+setDefaultOwner({ firstName: "Martin", lastName: "paseans" });
+
+// 파일 접근자만 노출 시킨다.
+let defaultOwner = { firstName: "Martin", lastName: "pauler" };
+export function getDefaultOwner() {
+  return defaultOwner;
+}
+export function setDefaultOwner(arg) {
+  defaultOwner = arg;
+}
+
+// 값 캡슐화 하기
+const owner1 = getDefaultOwner();
+
+// 값 변경을 제어하기위한 복제본 반환
+function getDefaultOwner() {
+  return Object.assign({}, defaultOwner);
+}
+function setDefaultOwner(arg) {
+  defaultOwner = arg;
+}
+
+// 원본 아예 변경할수 없게 반환
+export function getDefaultOwner() {
+  return new Person(defaultOwner);
+}
+export function setDefaultOwner(arg) {
+  defaultOwner = arg;
+}
+
+class Person {
+  constructor(data) {
+    this._lastName = data.lastName;
+    this._firstName = data.firstName;
+  }
+
+  get lastName() {
+    return this._lastName;
+  }
+  get firstName() {
+    return this._firstName;
+  }
+}
