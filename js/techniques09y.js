@@ -57,6 +57,7 @@ class Reading {
   const aReading = new Reading(rawReading);
   const basicChargeAmount = aReading.baseCharge;
 }
+
 class Reading {
   constructor(data) {
     this._customer = data.customer;
@@ -98,5 +99,5 @@ class Reading {
 {
   const rawReading = acquireReading();
   const aReading = new Reading(rawReading);
-  const TaxableCharge = aReading.taxableChargej;
+  const TaxableCharge = aReading.taxableCharge;
 }
